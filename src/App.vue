@@ -39,18 +39,31 @@
         {{item.name}}は{{item.price}}円です
       </li>
     </ul>
+    <input type="text" v-model="sendText" />
+    <Child :receiveText="sendText" @getShiokuri="showShiokuri"></Child>
+    <p v-for="(item,index) in shiokuriList" :key="index">
+        {{item}}
+    </p>
+    <Footer></Footer>
+    <SideMenu></SideMenu>
   </div>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import SideMenu from "./components/SideMenu";
+import Child from "./components/Child";
 
 export default {
   name: 'App',
   components: {
     // HelloWorld
-    Header
+    Header,
+    Footer,
+    SideMenu,
+    Child
   },
   data() {
     return {
@@ -80,7 +93,9 @@ export default {
       ],
       name: "",
       price: 0,
-      itemPriceList: []
+      itemPriceList: [],
+      sendText: "",
+      shiokuriList: []
     };
   },
   computed: {
@@ -109,7 +124,10 @@ export default {
       this.itemPriceList.splice(
         {index: 1}
       );
-    }
+    },
+    showShiokuri(Shiokuri) {
+      this.shiokuriList.push(Shiokuri);
+    },
   }
 };
 </script>
