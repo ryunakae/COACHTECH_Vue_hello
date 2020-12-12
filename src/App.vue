@@ -121,9 +121,7 @@ export default {
       );
     },
     deleteItem() {
-      this.itemPriceList.splice(
-        {index: 1}
-      );
+      this.itemPriceList.splice(0, 1);
     },
     showShiokuri(Shiokuri) {
       this.shiokuriList.push(Shiokuri);
