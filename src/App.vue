@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <Header></Header>
     <h1>Hello world</h1>
     <table>
       <tr><th>名前</th><th>値段</th><th>個数</th></tr>
@@ -23,17 +24,33 @@
     </table>
     <input type="text" :value="n">
     <p>合計金額：{{ woTax }}円（税抜）</p>
-     <p>合計金額：{{ wTax }}円（税抜）</p>
+    <p>合計金額：{{ wTax }}円（税抜）</p>
+    <p @click="userClick">{{clickSentence}}</p>
+    <ul>
+      <li v-for="(data,index) in list" :key="index">
+        {{data.name}}は{{data.price}}円です <span v-if="data.price > 300">高い</span>
+      </li>
+    </ul>
+    <label for="name">名前：</label><input type="text" id="name" v-model="name" />
+    <label for="price">値段：</label><input type="text" id="price" v-model="price" />
+    <button @click="addItem">追加</button><button @click="deleteItem">全削除</button>
+    <ul id="itemPriceList">
+      <li v-for="(item,index) in itemPriceList" :key="index">
+        {{item.name}}は{{item.price}}円です
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/Header";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld
+    Header
   },
   data() {
     return {
@@ -55,6 +72,15 @@ export default {
       n: "hello",
       apple: 200,
       orange: 100,
+      clickSentence: "クリックする前のテキスト",
+      list: [
+        { name: "りんご", price: 200 },
+        { name: "オレンジ", price: 100 },
+        { name: "バナナ", price: 500 }
+      ],
+      name: "",
+      price: 0,
+      itemPriceList: []
     };
   },
   computed: {
@@ -63,6 +89,26 @@ export default {
     },
     wTax() {
       return this.woTax *1.1
+    }
+  },
+  methods: {
+    userClick() {
+      if(this.clickSentence == "クリックする前のテキスト") {
+        this.clickSentence = "クリックした後のテキスト"
+      }
+      else {
+        this.clickSentence = "クリックする前のテキスト"
+      }
+    },
+    addItem() {
+      this.itemPriceList.push(
+        {name: this.name, price: this.price}
+      );
+    },
+    deleteItem() {
+      this.itemPriceList.splice(
+        {index: 1}
+      );
     }
   }
 };
